@@ -9,147 +9,52 @@ the project goal is to know What is IAM
 
 ### Step 0  
 ```bash
-Search about IAM 
+Search about IAM  
 ```
 ### Step 1  
 ```bash
-
+Create user 1 and user 2 and user 3 
 ```
+### Note : don't forget to write the passward in the clipboard as you will need it later 
+### other note : give them access to the AWS management console 
 
-### Step 3: Install K3s (Lightweight Kubernetes)
-#### On Master Node:
+### Step 2  
 ```bash
-sudo swapoff -a
-sudo sed -i '/swap/d' /etc/fstab
-curl -sfL https://get.k3s.io | sh -
-sudo systemctl status k3s
-sudo cat /var/lib/rancher/k3s/server/node-token
-# Example Token: K104b4edefc218a1ab89e8400a4d3ee77a8df71b08900d9ea735113627864c93660::server:deb2864502725b2111809c8f4ba8a6b5
+ go to user groups and create 3 groups which are
+EC2-admin
+EC2-support
+S3-support
 ```
-#### On Worker Node:
+
+### Step 3  
 ```bash
-curl -sfL https://get.k3s.io | K3S_URL="https://<MASTER_IP>:6443" K3S_TOKEN="<NODE_TOKEN>" sh -
+Choose EC2-support and give him policy (AmazonEC2ReadOnlyAccess)
 ```
-Check the nodes on the master:
+### Note : AmazonEC2ReadOnlyAccess : it allows him to see a lot of AWS resources like EC2 and S3 and CloudWatch and EC2 Auto scaling  but not to create or modify any resource
+
+### Step 4  
 ```bash
-kubectl get nodes
+after adding the policy choose it then choose JSON so you will see
+Effect : says whether to allow or deny the permission
+Action : specify the API calls that can be made agianst an AWS service
+Resource : It defines the scope of the policy to the user 
 ```
-
-### Step 4: Install Prometheus and Grafana on Master Node
-
-#### Prometheus:
+### Step 5 
 ```bash
-curl -LO https://github.com/prometheus/prometheus/releases/latest/download/prometheus-$(uname -s)-$(uname -m).tar.gz
-tar -xvf prometheus-*.tar.gz
-cd prometheus-*
-./prometheus --config.file=prometheus.yml
+Choose S3-support then attach policy and choose AmazonS3ReadOnlyAccess
 ```
-Create systemd service for Prometheus:
+### Note : AmazonS3ReadOnlyAccess : this policy gives the user the permission to see and list S3 buckets without ability to modify or delete or create new one 
+
+### Step 6 
 ```bash
-sudo nano /etc/systemd/system/prometheus.service
+choose EC2-Admin then choose the permission which is EC2-Admin-Policy
+but I have a question to you so what does this policy mean ?
 ```
-Add the following content:
-```ini
-[Unit]
-Description=Prometheus
-Wants=network-online.target
-After=network-online.target
-
-[Service]
-User=prometheus
-ExecStart=/path/to/prometheus --config.file=/path/to/prometheus.yml
-
-[Install]
-WantedBy=default.target
-```
-Enable and start the service:
+### Step 7 
 ```bash
-sudo systemctl daemon-reload
-sudo systemctl enable prometheus
-sudo systemctl start prometheus
-curl http://localhost:9090/-/healthy
+ 
 ```
 
-#### Grafana:
-```bash
-sudo apt update && sudo apt upgrade -y
-sudo apt install -y software-properties-common
-sudo add-apt-repository "deb https://packages.grafana.com/oss/deb stable main"
-wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
-sudo apt update && sudo apt install -y grafana
-sudo systemctl start grafana-server
-sudo systemctl enable grafana-server
-sudo systemctl status grafana-server
-```
-Access Grafana at `http://localhost:3000` with:
-- Username: `admin`
-- Password: `admin`
-
-Link Prometheus to Grafana:
-1. Open Grafana
-2. Go to Configuration -> Data Source
-3. Add Data Source -> Prometheus
-4. URL: `http://localhost:9090`
-5. Save & Test
-
-### Step 5: Setup SSH for Ansible
-On the worker node:
-```bash
-sudo apt update && sudo apt install -y openssh-server
-sudo systemctl enable ssh
-sudo systemctl start ssh
-sudo systemctl status ssh
-```
-On the master node:
-```bash
-ssh-keygen -t rsa -b 4096
-ssh-copy-id username@192.168.1.100
-ssh username@192.168.1.100
-```
-
-### Step 6: Install Ansible
-```bash
-sudo apt update && sudo apt install -y software-properties-common
-sudo add-apt-repository --yes --update ppa:ansible/ansible
-sudo apt install -y ansible
-ansible --version
-```
-
-## Ansible Playbooks
-Create playbooks to automate the installation of Docker, Git, Prometheus, and Grafana on the worker node.
-
-
-## Kubernetes Deployments
-
-### Step 1: Deploy Nginx
-```bash
-kubectl create deployment nginx --image=nginx
-kubectl expose deployment nginx --type=NodePort --port=80
-kubectl get services
-```
-
-### Step 2: Deploy Prometheus and Grafana
-Create the following Kubernetes manifests and apply them:
-- prometheus-config.yaml
-- prometheus-deployment.yaml
-- grafana-deployment.yaml
-
-```bash
-kubectl apply -f prometheus-config.yaml
-kubectl apply -f prometheus-deployment.yaml
-kubectl apply -f grafana-deployment.yaml
-```
-
-### Step 3: link prometheus to the app 
-to link the app to prometheus you will add some annotations to the deployment file of prometheus 
-then write kubectl apply -f my-nginx-deployment.yaml
-
-
-### Step 4: link grafana to prometheus 
-do the same steps to add prometheus to grafana
-
-### Step 5: to let prometheus monitor the app 
-you must create a file called clusterrole to give prometheus the permission to monitor the app
 
 ## Final Steps
 1. Deploy Prometheus and Grafana in the cluster.

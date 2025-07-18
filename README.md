@@ -1,32 +1,19 @@
-# AWS-IAM
-# Senior DevOps Project
+# Exploring AWS Identity and Access Management ( IAM )
 
 ## Project Goals
-1. Practical application of what I've learned in the DEBI scholarship.
-2. Complete automation of all tools, avoiding manual interventions even if possible.
+the project goal is to know What is IAM 
 
 ![Project Image](https://github.com/fadykaram88/Senior-1-/blob/main/1594668243636.png?raw=true)
 
+## AWS Console Steps  
 
-
-## Tools Used
-- Ansible
-- Kubernetes (K3s)
-- Docker
-- Prometheus
-- Grafana
-
-
-## Infrastructure Setup
-
-### Step 1: Install Ubuntu 22.04 LTS
-Install Ubuntu 22.04 LTS on both machines from [this link](https://releases.ubuntu.com/jammy/).
-
-### Step 2: Install Docker
+### Step 0  
 ```bash
-sudo apt install -y docker.io
-sudo systemctl enable --now docker
-sudo systemctl status docker
+Search about IAM 
+```
+### Step 1  
+```bash
+
 ```
 
 ### Step 3: Install K3s (Lightweight Kubernetes)

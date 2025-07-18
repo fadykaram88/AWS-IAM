@@ -78,8 +78,8 @@ You will see:
 
 - Attach a custom policy called `EC2-Admin-Policy`.
 
-❓ **Question**: What does this policy mean?
-
+❓ **Question**: What does this policy mean? Answer me in the comments in linkidin 
+ 
 ```json
 {
   "Effect": "Allow",
@@ -88,7 +88,6 @@ You will see:
 }
 ```
 
-> ✅ This means the user has **full administrative access to EC2** (can create, modify, delete, start, stop instances, etc.).
 
 ---
 

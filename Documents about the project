@@ -1,0 +1,63 @@
+Project 1 Exploring AWS Identity and Access Management  (IAM)
+0 - Search about IAM then create users 
+1 - create user 1 
+2 - create user 2 
+3 - create user 3 
+note : when you create the users give them access to the AWS management console
+other note : don't forget to write the password in the Clipboard as you will you need it later   
+4-  go to user groups and create 3 groups which are 
+EC2-admin
+EC2-support 
+S3-support  
+5- choose EC2-support 
+give him policy (AmazonEC2ReadOnlyAccess )
+AmazonEC2ReadOnlyAccess : it allows him to see a lot of 
+AWS resources like EC2 and S3 and CloudWatch and EC2 Auto scaling  but not to create or modify any resource 
+6- after adding the Policy go to the name of the policy and choose it then other page will be opened then choose JSON 
+you will see 
+Effect : says whether to allow or deny the permission 
+Action : specify the API calls that can be made against an AWS service 
+Resource : it defines the scope of the policy to the User 
+
+7- go back and choose S3-support 
+8- add permission by choosing attach policy and choose AmazonS3ReadOnlyAccess 
+AmazonS3ReadOnlyAccess : this policy gives the user the permission to see and list S3 buckets without ability to modify or delete or create new one . 
+
+9 - go back then choose EC2-Admin
+choose new permission and add EC2-Admin-Policy 
+a Question to you 
+what does this policy mean ??????????????????????
+
+now we want to add the users to the groups we created so how ?
+we will add user-1 to S3-Support  and user-2 to EC2-support and user-3 to EC2-Admin 
+
+10 - in the left you will see User groups so choose it 
+11 - choose S3-Support 
+12 - add users 
+13 - choose user-1 and choose add user
+14 - same steps in the other groups 
+
+15 - what if I want to open AWS Console as a user-1 not a root ?
+first write in the Search IAM 
+then go to users 
+then choose user-1 then choose Security credentials 
+16 - you will see Console sign-in link 
+17 - take the link URL 
+18 - open any private tap and open the link 
+19 - write user-1 in IAM username 
+20 - write the password you have written when you have created in the starting 
+then sign in 
+21 - write in the search bar S3 
+note : if there is any S3 bucket , I am sure you can see it as you have the permission to see it not to create or modify or delete it 
+but there are no S3 buckets as I don't have the permission to create new one .
+
+22 - sign out 
+23 - log in again as a root 
+24 - search about IAM 
+25 - choose users and choose user-3 then Security credentials 
+26 - copy Console sing-in link URL and copy it in other tap 
+27 - write user-3 in IAM username and write the password you have created in the starting 
+28 - write in the search EC2  then choose instances (running) then choose launch instance  
+29 - as user-3 you have a permission to stop any instance but unfortunately there is no instance to delete it as you don't have permission to create it ...
+30 - I am so happy if get any info from me 
+31 - good bye and see you soon in other project 
